@@ -1,0 +1,18 @@
+Package: palbo_io_p11044
+Title: Palbociclib + IO Cohort A (p11044) Analysis
+Version: 0.0.0.9000
+Authors@R: 
+    person("Rodrigo", "Gularte Merida", , "gularter@mskcc.org", role = c("aut", "cre"))
+Description: The palbo_io_p11044 package serves as a companion to the publication titled "xxx". This package provides the necessary computational tools and workflows orchestrated within the study, enabling readers to replicate and extend the analyses presented in the paper.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    DoubletFinder,
+    R (>= 3.5),
+    Seurat,
+    SeuratWrappers,
+    tidyverse
+LazyData: true
