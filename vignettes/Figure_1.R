@@ -116,7 +116,7 @@ design.skeleton <- function() {
          pos = 4,
          labels =  "Time (days)")
 }
-#design.skeleton()
+##design.skeleton()
 
 ## edited post in inkscape
 pdf(file.path(figDir, "Figure_1A.pdf"),
@@ -148,7 +148,7 @@ alluvial.p11044.trt.fu <- cohort.p11044 %>%
                     expand = FALSE) +
     theme_minimal(base_size = 5) +
     theme(panel.grid.major.x = element_blank())
-## alluvial.p11044.trt.fu
+alluvial.p11044.trt.fu
 
 
 ## ---- Figure 1C
@@ -215,7 +215,7 @@ waterfall.bar.p11044x <- bdx %>%
 ## ---- Figure 1D
 ## Swimers plot of Progression Free Survival
 ## annotated for irAE and reasion for comming off trial
-tmp.swimmers.bar.pfs.out.p11044x <- clinical.pheno.11044 %>%
+swimmers.bar.pfs.out.p11044x <- clinical.pheno.11044 %>%
     arrange(desc(tt_pfs)) %>%
     mutate(patient.id = factor(patient.id, .$patient.id)) %>%
     ggplot(aes(tt_pfs, patient.id, fill = bor_type1)) +
@@ -234,10 +234,6 @@ tmp.swimmers.bar.pfs.out.p11044x <- clinical.pheno.11044 %>%
           legend.position = "right",
           axis.title.y = element_blank())
 
-pdf(file.path(figDir, "tmp.Figure_1D.pdf"),
-    width = 140/25.4, height = 50/25.4)
-tmp.swimmers.bar.pfs.out.p11044x
-dev.off()
 
 ## ---- Figure 1E
 ## Spider Plot
@@ -257,7 +253,7 @@ spd.patient.colors <- setNames(spd.patient.colors.df$bor.color,
 
 labels.df <- spd %>% group_by(patient.id) %>% top_n(1, fu.time.point.)
 
-tmp.spider.line.pfs.delta.bor.p11044x <- spd %>%
+spider.line.pfs.delta.bor.p11044x <- spd %>%
     ggplot(aes(fu.days, delta.b.pct, colour = patient.id,
                shape = best.response.short)) +
     geom_hline(yintercept = c(-30, 30),
@@ -274,20 +270,16 @@ tmp.spider.line.pfs.delta.bor.p11044x <- spd %>%
     theme_palbo() +
     theme(legend.position = "none")
 
-pdf(file.path(figDir, "tmp.Figure_1E.spiderplot.pdf"),
-    width = 50/25.4, height = 50/25.4)
-tmp.spider.line.pfs.delta.bor.p11044x
-dev.off()
 
 
 
 ## Final Figure Assembly
-pdf(file.path(figDir, "tmp.Figure_1.new2.pdf"),
+pdf(file.path(figDir, "Figure_1.new2.pdf"),
     width =  210/25.4, height = 60/25.4)
-( ( plot_spacer()  / alluvial.p11044.trt.fu ) |
+( ( plot_spacer() / alluvial.p11044.trt.fu ) |
     waterfall.bar.p11044x |
-    tmp.swimmers.bar.pfs.out.p11044x |
-    tmp.spider.line.pfs.delta.bor.p11044x ) +
+    swimmers.bar.pfs.out.p11044x |
+    spider.line.pfs.delta.bor.p11044x ) +
     plot_layout(widths = c(0.6, 1, 1, 1)) +
     plot_annotation(tag_levels = 'A') &
     theme(legend.position = "none")
