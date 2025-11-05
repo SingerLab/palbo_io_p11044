@@ -1,18 +1,50 @@
-# Libraries
-library(Seurat)
+## =============================================================================
+#' 
+#' The code in reanalyzes T-cell immune components, and performs the differential
+#'  abundance  presented. Generates panels for Figure 4
+#'
+#' Code contributors: Evan Seffar
+#'
+#' Main Figures
+#' 
+#' * Figure 4 -- Panel A
+#' 
+#' Supplementary Tables
+#' 
+#' * Supplementary Table S1
+#'
+#' * Supplementary Table S2
+#' 
+#'
+## =============================================================================
+Purposely placed this message unquoted to prevent an accidental .ess.source
+
+
+## ----setup--------------------------------------------------------------------
+source("vignettes/main.R")
 library(dbplyr)
 library(janitor)
-library(ggplot2)
-library(dplyr)
 library(harmony)
 library(scCustomize)
 library(RColorBrewer)
 library(org.Hs.eg.db)
 library(ggalluvial)
 
-setwd("~/Downloads/PALBO_ANTIPD1/")
 
-P12_P13 <- subset(x = p11044xL$T, (bioID %in% c("P12", "P13")))
+## ----output_directory_setup---------------------------------------------------
+sample.name <- "03.p11044.Cancer_Cells"
+tabDir <- file.path("tables", sample.name)
+tmpDir <- file.path("tmp", sample.name)
+sapply(c(tabDir, tmpDir), usethis::use_directory)
+
+## ----load_data----------------------------------------------------------------
+data(p11044xL)
+
+## ---- T-cell Selection 
+## patient subset 
+P12_P13 <- p11044xL$T %>%
+    subset(bioID %in% c("P12", "P13"))
+## metadata thinning
 P12_P13@meta.data <- P12_P13@meta.data %>% dplyr::select(
   bioID,
   cycle,
@@ -21,16 +53,16 @@ P12_P13@meta.data <- P12_P13@meta.data %>% dplyr::select(
   patient.id
 )
 
-# TCells <- p11044x$T
-
+## ---- T-cell processing
 TCells_Harmonized <- P12_P13 %>%
   RunHarmony(c("cycle", "patient.id"), plot_convergence = TRUE) %>%
   RunUMAP(reduction = "harmony", dims = 1:35) %>%
   FindNeighbors(reduction = "harmony", dims = 1:35) %>%
-  FindClusters(resolution =  c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2)) %>%
+  FindClusters(resolution =  seq(0.1, 1.2, by =  0.1)) %>%
   identity()
 TCells_Harmonized
 
+## ---- get cell type frequencies
 Frequency_Alluvial <- TCells_Harmonized@meta.data %>%
   dplyr::select(bioID,
                 cycle,
@@ -52,6 +84,7 @@ Frequency_Alluvial <- TCells_Harmonized@meta.data %>%
   mutate(Proportion = round(prop.table(n), 3)) %>%
   dplyr::select(-n)
 
+## ---- alluvial plot
 Alluvial_Plot <- ggplot(
   data = Frequency_Alluvial,
   aes(
@@ -108,7 +141,7 @@ Alluvial_Plot <- ggplot(
   )
 Alluvial_Plot
 
-pdf(file = "FIGURES/AlluvialPlot_P12_P13.pdf",
+pdf(file = file.path(tmpDir, "AlluvialPlot_P12_P13.pdf"),
     width = 4,
     height = 2.5)
 Alluvial_Plot

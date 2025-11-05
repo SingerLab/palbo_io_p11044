@@ -1,13 +1,22 @@
-# Jasme Lee, MS
-# Department of Epidemiology & Biostatistics, Memorial Sloan Kettering Cancer Center
-# 2025-07-31
-# Manuscript Figs 4B-D (Flow analysis)
+## =============================================================================
+#'
+#' This code analyzes our patient PBMC flow cytometry data, performes the
+#'  differential abundance of PBMC cell types
+#'
+#' Code contributors: Jasme Lee, MS
+#' Department of Epidemiology & Biostatistics, Memorial Sloan Kettering Cancer Center
+#' 2025-07-31
+#' Manuscript Figs 4B-D (Flow analysis)
+#'
+#' 
+## =============================================================================
+
 
 ## Set up ---------------------------------------
 library(tidyverse)
 library(patchwork)
 
-# set ggplot theme
+## set ggplot theme
 theme_set(theme_classic() + 
             theme(text = element_text(size = 12), 
                   axis.text = element_text(color = "black"), 
@@ -15,18 +24,19 @@ theme_set(theme_classic() +
 
 col_bor = c("PR" = "#00BFC4", "SD" = "#4C86C6", "PD" = "#A3D276")
 
-# Read in data of perc change for selected subpops
+## Read in data of perc change for selected subpops
+## Assumes same directory as script- change file path here.
 flow_dat = 
-# Assumes same directory as script- change file path here.
   readRDS("./flow_perc_change_dat.Rds")
 
-# nrows = n pts*n subpops = 10*63 = 630
-# ncols = 5
-#  Columns are: 
-#  (1) ID; (2) BOR; (3) full subpopulation name, 
-#  (4) shortened/prettified subpop label for plots; 
-#  (5) the percent diff from baseline to on-trt
+#' nrows = n pts*n subpops = 10*63 = 630
+#' ncols = 5
+#'  Columns are: 
+#'  (1) ID; (2) BOR; (3) full subpopulation name, 
+#'  (4) shortened/prettified subpop label for plots; 
+#'  (5) the percent diff from baseline to on-trt
 dim(flow_dat)
+
 
 ###########################################################
 ## Fig 4B ---------------------
