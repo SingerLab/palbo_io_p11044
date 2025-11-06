@@ -51,15 +51,6 @@ paired.id.colors = c("P03" = "#000000",
                      "P13" = "#000000",
                      "Unpaired" = "#888888")
 
-p2.patient.colors <- pals::glasbey(27)
-names(p2.patient.colors) <- c("P14", "P15", "P17", "P18",
-                              "P19", "P20", "P22", "P24",
-                              "P25", "P26", "P27", "P28",
-                              "P29", "P30", "P31", "P32",
-                              "P33", "P34", "P35", "P36",
-                              "P37", "P39", "P40", "P42",
-                              "P43", "P44", "P45")
-
 phase.colors <- c("G1" = "#4DAC26", "S" = "#F1B6DA", "G2M" = "#D01C8B")
 
 cell.type.colors <- c(
@@ -73,86 +64,16 @@ cell.type.colors <- c(
     "Myeloid" = "#F0D1E1",
     "NK" = "#CCCCFF",
     "Smooth Muscle" = "#FFED6F"
+    "Fibroblasts" = "#FFED6F"
 )
 
-## --- cell type colors / will merge with previous
-p2.celltype.colors <- c("Adipocyte" = "#FDB863",  ## "#666666", ##
-                        "ASPC" =  "#9970AB", ## "#333333", ##
-                        "Putative_Tumor" = "#333333",
-                        "Endometrial" = "#F0A0FF",
-                        "Endothelial" = "#0075DC",
-                        "Lymphatic Endothelial" = "#93D4FF",
-                        "Mesothelial" = "#993F00",
-                        "Pericyte" = "#FF0010",
-                        "Smooth Muscle" = "#FAF04F",
-                        "Fibroblasts" = "#FAF04F",
-                        ## myeloid lineage
-                        "M+M" = "#E6550D",
-                        "Mono" =  "#FEE6CE",
-                        "Monocyte" =  "#FEE6CE",
-                        "Macrophage" = "#E6550D",
-                        "DC" = "#0F8299",
-                        "Dendritic" = "#0F8299",
-                        "Mast" = "#CE6DBD",
-                        "Neutrophil" = "#B33E52",
-                        ## lymphoid lineage
-                        "B" =  "#3182BD",
-                        ### NK
-                        "NK" = "#BCBDDC", 
-                        ### T
-                        "T" = "#238B45",
-                        "CD4 T" = "#BAE4B3",
-                        "CD8 T" = "#74C476",
-                        "other T" = "#EDF8E9",
-                        "Other" = "#D9D9D9" ,
-                        "Unknown" = "#D9D9D9")
-
-cell.type.class <-  list("Putative_Tumor" = c("Adipocyte", "ASPC"),
-                         "Other" = c("Endometrial", "Endothelial",
-                                     "Lymphatic Endothelial", "Mesothelial",
-                                     "Pericyte"),
-                         "Immune_Other" = c("Mast", "Neutrophil"),
-                         "B" = "B",
-                         "DC" = "Dendritic",
-                         "NK" = "NK",
-                         "MM" = c("Macrophage", "Monocyte"),
-                         "T" =  "T")
-
-celltype.class.colors <- c("T" = "#238B45",
-                           "M+M" = "#E6550D",
-                           "NK" = "#BCBDDC",
-                           "DC" = "#0F8299",
-                           "B" = "#3182BD",
-                           "Immune_Other" = "#EDF8E9",
-                           "Other" =  "#D9D9D9",
-                           "Putative_Tumor" = "#333333",
-                           "Unknown" = "#D9D9D9")
-
-cell.type.class.short <-  list("Putative_Tumor" = c("Adipocyte", "ASPC", "Putative_Tumor"),
-                               ## other
-                               "Other" = c("Endometrial", "Endothelial",
-                                           "Lymphatic Endothelial", "Mesothelial",
-                                           "Pericyte", "Smooth Muscle", "Fibroblasts"
-                                           ),
-                               ## immune
-                               "Immune" = c("Mast", "B", "DC", "Dendritic", "NK",
-                                            "Macrophage", "Monocyte", "Neutrophil",
-                                            "T",  "CD4 T", "CD8 T"))
-
-
-celltype.class.short.colors <- c("Immune" = "#3182BD",
-                                 "Other" =  "#D9D9D9",
-                                 "Putative_Tumor" = "#333333")
-
-
 ## change -- one dark one light / helps w/ colorblind safe
-## For Cohort A:  C1 / C3 refer to palbo alone, and palbo+IO
-## For Cohort B: C0 / C3 / S0 refer to baseline / on-treatment / on-treatment resection
+## For Cohort A:  C0 / C1 / C3 refer to baseine, Pre-IO, and Post+IO, respectively
 cycle.colors <- c(
     "C0" = "#BABABA",
     "C1" = "#8CD2C7",
-    "C3" = "#C51B7D", ## "#D7A0AB"
-    "S0" = "#F1B6DA")
+    "C3" = "#C51B7D")
+
 
 ## Best overall rseponse colors 
 ## RECIST response colors 

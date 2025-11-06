@@ -196,13 +196,14 @@ library(SeuratData)
 ## available_data <- AvailableData()
 ## InstallData("adiposeref")
 ## InstallData("pbmcref")
-#### InstallData("pbmcsca")
-## Cell type annotation with PBMC reference
-## provides higher resoultion of immune cells
-p11044si <- RunAzimuth(p11044s, reference = "pbmcref")
+
 ## Cell type annotation with Adipose tissue reference
 ## provides generalized cell type for other cell types
 p11044s <- RunAzimuth(p11044s, reference = "adiposeref")
+
+## Cell type annotation with PBMC reference
+## provides higher resoultion of immune cells
+p11044si <- RunAzimuth(p11044s, reference = "pbmcref")
 
 pbmcref.pred <- p11044si[[]] %>% dplyr::select(nCount_refAssay:mapping.score)
 names(pbmcref.pred)  <- paste(names(pbmcref.pred), "pbmcref", sep = ".")
@@ -246,7 +247,7 @@ makeShinyApp(p11044s, scConf = scConf, shiny.dir = shiny.dir,
 ##      azizi.cells, jerby.anron.cell.types,
 ##      szabo.tcells, sasp)
 data(sasp, gruel.liposarcoma.signatures)
-##
+
 ##sarcoma.signatures <- list(wd.dd.liposarcoma.score = c("MDM2", "CDK4", "HMGA2"),
 ##                           lps.up.score = ls.deg %>%
 ##                               filter(STATUS == "UP REGULATED IN WDLS_DDLS") %>%
@@ -379,11 +380,13 @@ makeShinyApp(p11044s, scConf = scConf, shiny.dir = shiny.dir,
 
 usethis::use_data(p11044s, p11044x, overwrite = TRUE)
 
+
 message("Preprocessing Complete")
+
 
 ## ----session_info-------------------------------------------------------------
 sessionInfo()
-##> 
+
 ##> R version 4.0.5 (2021-03-31)
 ##> Platform: x86_64-conda-linux-gnu (64-bit)
 ##> Running under: CentOS Linux 7 (Core)

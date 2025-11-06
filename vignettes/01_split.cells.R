@@ -18,6 +18,7 @@ tabDir <- file.path("tables", sample.name)
 figDir <- file.path("figures", sample.name)
 tmpDir <- file.path("tmp", sample.name)
 tmpImage <- "p11044.now.rda"
+
 ## create directories
 sapply(c(tabDir, figDir, tmpDir), usethis::use_directory)
 
@@ -62,6 +63,7 @@ dominant.cell.type.combinations <- c(
     "Mast:other", "Monocyte:Mono", "NK:CD8 T", "NK:NK",
     "Pericyte:other", "Smooth Muscle:other",
     "T:CD4 T", "T:CD8 T", "T:other T")
+
 
 ## use new p11044x -- contains new columns not in p11044s
 ## select dominant cell type combinations
