@@ -42,7 +42,8 @@ sapply(c(tabDir, tmpDir), usethis::use_directory)
 data(p11044xL)
 
 ## ----cancer cells subset
-Cancer_Cells <- p11044xL[["Cancer Cells"]]
+Cancer_Cells <- p11044x[["Cancer Cells"]]
+rm(p11044xL)
 
 color_vector <- c(
     "#A6CEE3",
@@ -65,14 +66,13 @@ color_vector <- c(
 ## -----------------------------------------------------------------------------
 
 ## Run harmony integration
-harmonized <- subset(x = Cancer_Cells, patient.id == c("P03", "P12")) %>%
+harmonized <- subset(x = Cancer_Cells, patient.id %in% c("P03", "P12")) %>%
     RunHarmony("cycle", plot_convergence = TRUE) %>%
     RunUMAP(reduction = "harmony", dims = 1:35) %>%
     FindNeighbors(reduction = "harmony", dims = 1:35) %>%
     FindClusters(resolution = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
                                 0.8, 0.9, 1.0, 1.2)) %>%
     identity()
-
 harmonized
 Idents(object = harmonized) <- "SCT_snn_res.0.5"
 
@@ -117,7 +117,7 @@ print(filtered_clusters)
 metadata_filtered <- harmonized@meta.data %>%
     filter(SCT_snn_res.0.5 %in% rownames(filtered_clusters)) %>%
     dplyr::select(SCT_snn_res.0.5, bioID, cycle,
-                  REACTOME_CELL_CYCLE, SASP_Score) %>%
+                  REACTOME_CELL_CYCLE, GLEASON_SASP_Score) %>%
     pivot_longer(!c("SCT_snn_res.0.5", "bioID", "cycle"),
                  names_to = "Pathway",
                  values_to = "Pathway_Score")
@@ -148,8 +148,9 @@ P12_Cancer_Cells <- subset(
     SCT_snn_res.0.5 %in% rownames(filtered_clusters) &
     cycle == "C3"
 )
-P12_Cancer_Cells <- SCTransform(P12_Cancer_Cells, do.
-                                center = TRUE, do.scale = TRUE)
+P12_Cancer_Cells <- SCTransform(P12_Cancer_Cells,
+                                do.center = TRUE, do.scale = TRUE)
+                                
 P12_Cancer_Cells@meta.data <- P12_Cancer_Cells@meta.data %>%
     mutate(ClusterGroup <- ifelse(SCT_snn_res.0.5 == 8,
                                   "C8", "OtherClusters"))                                  
@@ -161,13 +162,10 @@ P12_Cancer_Cells@meta.data %>%
     tally
 
 ## DESeq2 analysis for P12
-## Explicit `Seurat::AggregateExpression` as can be masked by
-## other packages
-P12_Cancer_Cells.counts <- Seurat::AggregateExpression(
-                                       object = P12_Cancer_Cells,
-                                       assays = "RNA",
-                                       group.by = c("SCT_snn_res.0.5")
-                                   ) %>%
+P12_Cancer_Cells.counts <- AggregateExpression(
+    object = P12_Cancer_Cells,
+    assays = "RNA",
+    group.by = c("SCT_snn_res.0.5")) %>%
     as.data.frame()
 
 colData <- data.frame(
@@ -217,7 +215,7 @@ Markers_to_export <- Markers %>%
 
 write.table(
     Markers_to_export,
-    file = file.path(tabDir, "DEG_Analysis/Cluster8_vs_Other_Panel_G.txt"),
+    file = file.path(tabDir, "Cluster8_vs_Other_Panel_G.txt"),
     sep = "\t",
     quote = FALSE,
     row.names = FALSE
@@ -410,42 +408,43 @@ VolcanoPlot_C8_vs_Other
 ## -----------------------------------------------------------------------------
 
 ## Load Sarah Watson signatures
-Sarah_Watson_Signatures <- read_delim(
-    "DATA/Signatures/Sarah_Watson_Signatures.txt",
-    delim = "\t",
-    escape_double = FALSE,
-    trim_ws = TRUE
-)
+data(gruel.liposarcoma.signatures)
+##Sarah_Watson_Signatures <- read_delim(
+##    "DATA/Signatures/Sarah_Watson_Signatures.txt",
+##    delim = "\t",
+##    escape_double = FALSE,
+##    trim_ws = TRUE
+##)
 
-## Add module scores
+## Add module scores one by one for all to have 1 at the end
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$`Adipo diff`),
-    name = "Adipocyte_Differenciation"
+    features = gruel.liposarcoma.signatures['GRUEL_Adipo_diff'],
+    name = "Adipocyte_Differenciation",
 )
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$Angiogenesis),
+    features = gruel.liposarcoma.signatures['GRUEL_Angiogenesis'],
     name = "Angiogenesis"
 )
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$`ECM remodeling`),
+    features = gruel.liposarcoma.signatures['GRUEL_ECM_remodeling'],
     name = "ECM remodeling"
 )
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$Hypoxia),
+    features = gruel.liposarcoma.signatures['GRUEL_Hypoxia'],
     name = "Hypoxia"
 )
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$Invasion),
+    features = gruel.liposarcoma.signatures['GRUEL_Invasion'],
     name = "Invasion"
 )
 harmonized <- AddModuleScore(
     object = harmonized,
-    features = list(Sarah_Watson_Signatures$Stemness),
+    features = gruel.liposarcoma.signatures['GRUEL_Stemness'],
     name = "Stemness"
 )
 
@@ -456,10 +455,11 @@ metadata_filtered <- harmonized@meta.data %>%
 #' Script specific function to plot pathways // Contains an embedded data object
 #' @param cluster_column metadata clster column
 plot_pathways <- function(cluster_column) {
+    
     pathways <- c(
-        "SASP_Score",
+        "GLEASON_SASP_Score",
         "REACTOME_CELL_CYCLE",
-        "HALLMARK_DNA_REPAIR",
+        "REACTOME_DNA_REPAIR",
         "REACTOME_ANTIGEN_PROCESSING_CROSS_PRESENTATION",
         "Adipocyte_Differenciation1",
         "Angiogenesis1",
@@ -468,7 +468,7 @@ plot_pathways <- function(cluster_column) {
         "Invasion1",
         "Stemness1"
     )
-    
+
     data_list <- lapply(pathways, function(pathway) {
         Median_per_Cycle_Patient_Cluster <- aggregate(
             x = metadata_filtered[[pathway]],
@@ -493,12 +493,11 @@ plot_pathways <- function(cluster_column) {
             mutate(
                 C1 = round(ifelse(C1 == 0, 1e-6, C1), 4),
                 C3 = round(ifelse(C3 == 0, 1e-6, C3), 4),
-                FoldChange = round(log2(C3 / C1), 4),
+                FoldChange = round(log2((C3+1) / (C1+1)), 4),
                 Significance = abs(FoldChange) > 1,
                 Pathway = pathway,
                 Color = sapply(FoldChange, assign_color)
             )
-        
         return(Median_per_Cycle_Patient_Cluster)
     })
     
@@ -506,9 +505,13 @@ plot_pathways <- function(cluster_column) {
     patient_colors <- setNames(rainbow(length(unique(
         combined_data$PatientID
     ))), unique(combined_data$PatientID))
-    cluster_patient_map <- combined_data %>% dplyr::select(Cluster, PatientID) %>% unique()
-    
-    combined_data$Cluster <- factor(combined_data$Cluster, levels = cluster_patient_map$Cluster)
+    cluster_patient_map <- combined_data %>%
+        dplyr::select(Cluster, PatientID) %>%
+        unique()
+
+    combined_data$Cluster <- factor(combined_data$Cluster,
+                                    levels = unique(cluster_patient_map$Cluster))
+
     cluster_colors <- sapply(levels(combined_data$Cluster), function(cluster) {
         patient_colors[cluster_patient_map$PatientID[cluster_patient_map$Cluster == cluster]]
     })

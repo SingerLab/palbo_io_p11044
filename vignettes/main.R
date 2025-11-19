@@ -63,7 +63,7 @@ cell.type.colors <- c(
     "Endothelial" = "#BBDC76",
     "Myeloid" = "#F0D1E1",
     "NK" = "#CCCCFF",
-    "Smooth Muscle" = "#FFED6F"
+    "Smooth Muscle" = "#FFED6F",
     "Fibroblasts" = "#FFED6F"
 )
 
