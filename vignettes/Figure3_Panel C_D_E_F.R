@@ -23,7 +23,7 @@ library(scCustomize)
 set.seed(1996)
 
 # Load data
-load("data/processed/Cohort_A/p11044x.rda")
+data(p11044x) #load("data/processed/Cohort_A/p11044x.rda")
 
 Cancer_Cells <- subset(p11044x, curated.celltype.l1 == "Cancer Cells")
 
@@ -33,7 +33,7 @@ cycle.colors <- c("C1" = "#8CD2C7", "C3" = "#C51B7D")
 # -----------------------------------------------------------------------------
 # Harmony Analysis (P03 and P12)
 # -----------------------------------------------------------------------------
-
+set.seed(1996)
 # Run harmony integration
 harmonized <- subset(x = Cancer_Cells, patient.id %in% c("P03", "P12")) %>%
   RunHarmony("cycle", plot_convergence = TRUE) %>%
@@ -522,13 +522,13 @@ harmonized <- AddModuleScore(
 
 # Update filtered metadata
 metadata_filtered <- harmonized@meta.data %>%
-  filter(SCT_snn_res.0.4_swapped %in% rownames(filtered_clusters))
+    filter(SCT_snn_res.0.4_swapped %in% rownames(filtered_clusters))
 
 # Define pathways to analyze
 pathways <- c(
-  "SASP_Score",
+  "GLEASON_SASP_Score",
   "REACTOME_CELL_CYCLE",
-  "HALLMARK_DNA_REPAIR",
+  "REACTOME_DNA_REPAIR",
   "REACTOME_ANTIGEN_PROCESSING_CROSS_PRESENTATION",
   "Adipocyte_Differenciation1",
   "Angiogenesis1",
@@ -624,6 +624,7 @@ DotPlot_Pathway <- ggplot(combined_data, aes(x = Pathway, y = Cluster_Patient)) 
   ) +
   xlab("Pathway") + ylab("Cluster_Patient") +
   ggtitle("Dotplot of Fold Change Between C1 and C3")
+
 DotPlot_Pathway
 
 # Export pathway data

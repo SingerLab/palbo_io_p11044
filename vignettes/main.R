@@ -69,7 +69,7 @@ cell.type.colors <- c(
 
 ## change -- one dark one light / helps w/ colorblind safe
 ## For Cohort A:  C0 / C1 / C3 refer to baseine, Pre-IO, and Post+IO, respectively
-cycle.colors <- c(
+cycle.colors <- c( 
     "C0" = "#BABABA",
     "C1" = "#8CD2C7",
     "C3" = "#C51B7D")

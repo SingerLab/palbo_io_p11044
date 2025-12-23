@@ -3,7 +3,8 @@
 #' This function generates a plot that visualizes the median values of a specified variable 
 #' across treatment cycles, grouped by patient and pathway clusters.
 #'
-#' @param data data frame containing the input data. It must have columns `SCT_snn_res.0.5`, `bioID`, `cycle`, and `Pathway`.
+#' @param data data frame containing the input data. It must have columns `SCT_snn_res.0.4_swapped`,
+#'             `bioID`, `cycle`, and `Pathway`.
 #' @param variable_name A string specifying the column name in `data` for which the median values are calculated.
 #' @param color_scheme A named vector color map
 #' @param title plot title
@@ -22,28 +23,28 @@ plot_median_values <- function(data,
                                ylab) {
   # Aggregating median values
   Median_per_Cycle_Patient_Cluster <- data %>%
-    group_by(SCT_snn_res.0.5, bioID, cycle, Pathway) %>%
-    summarise(Value = median(.data[[variable_name]], na.rm = TRUE)) %>%
-    pivot_wider(names_from = cycle, values_from = Value)
-  
+      dplyr::group_by(SCT_snn_res.0.4_swapped, bioID, cycle, Pathway) %>%
+      dplyr::summarise(Value = median(.data[[variable_name]], na.rm = TRUE)) %>%
+      pivot_wider(names_from = cycle, values_from = Value)
+    
   # Plotting
   plot <- ggplot(Median_per_Cycle_Patient_Cluster) +
     geom_segment(aes(
-      x = SCT_snn_res.0.5,
-      xend = SCT_snn_res.0.5,
+      x = SCT_snn_res.0.4_swapped,
+      xend = SCT_snn_res.0.4_swapped,
       y = C1,
       yend = C3
     ),
     color = "grey") +
     geom_point(
-      aes(x = SCT_snn_res.0.5, y = C1),
+      aes(x = SCT_snn_res.0.4_swapped, y = C1),
       color = color_scheme["C1"],
       fill = color_scheme["C1"],
       size = 3,
       shape = 16
     ) +
     geom_point(
-      aes(x = SCT_snn_res.0.5, y = C3),
+      aes(x = SCT_snn_res.0.4_swapped, y = C3),
       color = color_scheme["C3"],
       fill = color_scheme["C3"],
       size = 3,
