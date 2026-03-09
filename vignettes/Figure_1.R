@@ -271,8 +271,6 @@ spider.line.pfs.delta.bor.p11044x <- spd %>%
     theme(legend.position = "none")
 
 
-
-
 ## Final Figure Assembly
 pdf(file.path(figDir, "Figure_1.new2.pdf"),
     width =  210/25.4, height = 60/25.4)
