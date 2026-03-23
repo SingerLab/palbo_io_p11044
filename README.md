@@ -4,7 +4,7 @@
 
 This repository contains the analysis code and data processing pipelines accompanying the manuscript:
 
-**Rosenbaum E, Gularte-Mérida R**, Seffar E, Lee J, Adamow M, Bradic M, Dickson MA, Avutu V, Banks LB, Chan JE, Chi P, Gounder MM, Kelly CM, Keohan ML, Maki RG, Movva S, Reed DR, Desir R, Biniakewitz M, Erinjeri JP, Lefkowitz RA, Wong P, Antonescu CR, Qin L-X, Panageas KS, Shen R, Singer S, Koff A, Tap WD, D'Angelo SP. *Tumor and Immune Effects of CDK4/6 + retifanlimab in DDLPS.* Cancer Research Communications. 2025;6(2):437–446.
+Rosenbaum E, Gularte-Mérida R, Seffar E, Lee J, Adamow M, Bradic M, Dickson MA, Avutu V, Banks LB, Chan JE, Chi P, Gounder MM, Kelly CM, Keohan ML, Maki RG, Movva S, Reed DR, Desir R, Biniakewitz M, Erinjeri JP, Lefkowitz RA, Wong P, Antonescu CR, Qin L-X, Panageas KS, Shen R, Singer S, Koff A, Tap WD, D'Angelo SP. *Tumor and Immune Effects of CDK4/6 + retifanlimab in DDLPS.* Cancer Research Communications. 2025;6(2):437–446.
 
 **DOI:** [10.1158/2767-9764.CRC-25-0334](https://doi.org/10.1158/2767-9764.CRC-25-0334)
 
