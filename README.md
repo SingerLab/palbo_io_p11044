@@ -107,7 +107,7 @@ This study was supported by:
 - FDA R01 FD007528
 - NIH/NCI Cancer Center Support Grant P30 CA008748 (MSKCC)
 - Marie-Josée and Henry R. Kravis Center for Molecular Oncology
-- Clinical trial funding and retifanlimab provided by Incyte Corporation
+- Additional funding and retifanlimab was provided by Incyte Corporation
 
 ---
 
