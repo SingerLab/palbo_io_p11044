@@ -117,8 +117,8 @@ If you use code or data from this repository, please cite:
 
 ```bibtex
 @article{Rosenbaum2025,
-  title={Tumor and Immune Effects of CDK4/6 + retifanlimab in DDLPS},
-  author={Rosenbaum, Eli and Gularte-M{\'e}rida, Ricardo and Seffar, Elias and Lee, Jasme and Adamow, Margaret and Bradic, Martina and Dickson, Mark A and Avutu, Vamsi and Banks, Liam B and Chan, John E and Chi, Ping and Gounder, Mrinal M and Kelly, Ciara M and Keohan, Mary Louise and Maki, Robert G and Movva, Sujana and Reed, Damon R and Desir, Reginald and Biniakewitz, Meredith and Erinjeri, Joseph P and Lefkowitz, Robert A and Wong, Phillip and Antonescu, Cristina R and Qin, Li-Xuan and Panageas, Katherine S and Shen, Ronglai and Singer, Samuel and Koff, Andrew and Tap, William D and D'Angelo, Sandra P},
+  title={Tumor and Immune Dynamics Following Sequential CDK4/6 and PD-1 Inhibition: Results from a Phase 2 Study in Dedifferentiated Liposarcoma},
+  author={Rosenbaum E,  Gularte-Mérida R,  Seffar E,  Lee J,  Adamow M,  Bradic M,  Dickson MA,  Avutu V,  Banks LB,  Chan JE,  Chi P,  Gounder MM,  Kelly CM,  Keohan ML,  Maki RG,  Movva S,  Reed DR,  Desir R,  Biniakewitz M,  Erinjeri JP,  Lefkowitz RA,  Wong P,  Antonescu CR,  Qin LX,  Panageas KS,  Shen R,  Singer S,  Koff A,  Tap WD,  D'Angelo SP},
   journal={Cancer Research Communications},
   volume={6},
   number={2},
